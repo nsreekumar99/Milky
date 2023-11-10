@@ -1,7 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using MilkyWeb.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>  //adding entity framework core to the project -db configuration
+//Services.AddDbContext<ApplicationDbContext>This line registers the applicationdbcontext as a service in the application's service
+//container.
+
+ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); //getting permissions to add sql server
+//options.UseSqlServer(...) - This part configures Entity Framework Core to use SQL Server as the database provider.
+//builder.Configuration.GetConnectionString("DefaultConnection") - This part retrieves the connection string named "DefaultConnection" 
+// from the application's configuration.
+
+
 
 var app = builder.Build();
 

@@ -1,0 +1,40 @@
+﻿@model List<Category>
+<div class="container">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">
+				Category List
+			</h2>
+		</div>
+		<div class="col-6 text-end">
+			<a asp-controller="Category" asp-action="Create" class="btn btn-primary">
+			<i class="bi bi-plus-circle"></i> Create New Category
+			</a>
+		</div>
+	</div>
+<table class="table table-bordered table table-striped">
+	<thead>
+	<tr>
+		<th>
+			Category Name
+		</th>
+		<th>
+			Display Order
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+		@foreach(var obj in Model.OrderBy(u=>u.displayOrder)) // loop to display every category elements and later using sort
+		{
+		<tr>
+			<td>
+				@obj.name
+			</td>
+			<td>
+				@obj.displayOrder
+			</td>
+		</tr>
+		}
+	</tbody>
+</table>
+</div>
