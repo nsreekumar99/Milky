@@ -48,5 +48,65 @@ namespace MilkyWeb.Controllers
 			}
 			return View();
 		}
+
+		public IActionResult Edit(int? id)
+		{
+			if(id==null || id==0)
+			{
+				return NotFound();
+			}
+
+
+			Category CategoryFromDb = _db.Category.Find(id); // Attempts to find a category using id
+
+			if (CategoryFromDb == null)
+			{
+				return NotFound();
+			}
+			return View(CategoryFromDb); // If the category is found, it returns a view for editing the category,
+		}
+
+		[HttpPost] //used to handle form submissions and other data modifications.
+		public IActionResult Edit(Category obj)
+		{
+			if (ModelState.IsValid)  //check validations
+			{
+				_db.Category.Update(obj); //add object to database catagory
+				_db.SaveChanges();
+				return RedirectToAction("Index");
+			}
+			return View();
+		}
+
+		public IActionResult Delete(int? id)
+		{
+			if (id == null || id == 0)
+			{
+				return NotFound();
+			}
+
+
+			Category CategoryFromDb = _db.Category.Find(id); // Attempts to find a category using id
+
+			if (CategoryFromDb == null)
+			{
+				return NotFound();
+			}
+			return View(CategoryFromDb); // If the category is found, it returns a view for editing the category,
+		}
+
+		[HttpPost, ActionName("Delete")] //used to handle form submissions and other data modifications.
+		public IActionResult DeletePOST(int? id)
+		{
+
+			Category obj = _db.Category.Find(id);
+			if(obj== null)
+			{
+				return NotFound();
+			}
+			_db.Category.Remove(obj);
+			_db.SaveChanges();
+			return RedirectToAction("Index");
+		}
 	}
 }
