@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using MilkyWeb.Data;
+using Milky.DataAccess.Data;
+using Milky.DataAccess.Repository;
+using Milky.DataAccess.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,12 +11,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>  //adding entity 
 //Services.AddDbContext<ApplicationDbContext>This line registers the applicationdbcontext as a service in the application's service
 //container.
 
- options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); //getting permissions to add sql server
-//options.UseSqlServer(...) - This part configures Entity Framework Core to use SQL Server as the database provider.
-//builder.Configuration.GetConnectionString("DefaultConnection") - This part retrieves the connection string named "DefaultConnection" 
-// from the application's configuration.
 
 
+ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));  //getting permissions to add sql server
+                                                                                         //options.UseSqlServer(...) - This part configures Entity Framework Core to use SQL Server as the database provider.
+                                                                                         //builder.Configuration.GetConnectionString("DefaultConnection") - This part retrieves the connection string named "DefaultConnection" 
+                                                                                         // from the application's configuration.
+
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
 var app = builder.Build();
 
@@ -35,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
