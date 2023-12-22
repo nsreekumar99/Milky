@@ -33,4 +33,8 @@
     <ProjectReference Include="..\Milky.DataAccess\Milky.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\product\" />
+  </ItemGroup>
+
 </Project>

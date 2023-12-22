@@ -1,4 +1,5 @@
 ﻿// Import the Entity Framework Core namespace to access its classes and functionality.
+
 using Microsoft.EntityFrameworkCore;
 using Milky.Models;
 
@@ -50,7 +51,8 @@ namespace Milky.DataAccess.Data
 					Description = "Experience the pure indulgence of our Jersey cow's milk – a rich, creamy delight with a 5+ milk fat content. Sourced from contented cows grazing on lush pastures, our farm-to-table milk promises a taste of unparalleled freshness. Elevate your culinary moments with the exquisite richness of our premium Jersey cow's milk.",
 					MilkFat = "4.5 - 5.5",
 					Price = 55,
-					CategoryID = 1
+					CategoryID = 1,
+					ImageUrl =""
 				});
 
 		}

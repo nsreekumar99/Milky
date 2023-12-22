@@ -2,6 +2,7 @@
 using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace Milky.DataAccess.Repository
 		{
             _db = db; 
 			this.dbSet = _db.Set<T>(); //Initialize the dbSet field with the DbSet<T> for the entity type T in the context
+			_db.Products.Include(u => u.Category).Include(u=>u.CategoryID);
 		}
         public void Add(T entity) // Method to add an entity to the DbSet
 		{
@@ -29,16 +31,30 @@ namespace Milky.DataAccess.Repository
 		}
 
 		//Method to retrieve a single entity based on a filter expression
-		public T Get(System.Linq.Expressions.Expression<Func<T, bool>> filter)
+		public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
 		{
 			IQueryable<T> query = dbSet;
 			query =query.Where(filter); // Apply the filter expression to the query
+			if (!string.IsNullOrEmpty(includeProperties))
+			{
+				foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+				{
+					query = query.Include(includeProp);
+				}
+			}
 			return query.FirstOrDefault(); // Return the first or default result of the query
 		}
 
-		public IEnumerable<T> GetAll() // Method to retrieve all entities from the DbSet
+		public IEnumerable<T> GetAll(string? includeProperties=null) // Method to retrieve all entities from the DbSet
 		{
 			IQueryable<T> query = dbSet;
+			if(!string.IsNullOrEmpty(includeProperties))
+			{
+				foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+				{
+					query=query.Include(includeProp);
+				}
+			}
 			return query.ToList(); // Return a list of all entities in the query
 		}
 
@@ -49,7 +65,7 @@ namespace Milky.DataAccess.Repository
 		}
 
 		// Method to remove a range of entities from the DbSet
-		public void RemoveRange(T entity)
+		public void RemoveRange(IEnumerable<T> entity)
 		{
 			dbSet.RemoveRange(entity);
 		 
