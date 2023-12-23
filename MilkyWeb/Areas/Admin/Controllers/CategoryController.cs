@@ -81,36 +81,31 @@ namespace MilkyWeb.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult Delete(int? id)
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
+			List<Category> objCategoryList = _unitOfWork.Category.GetAll().ToList();
+            return Json(new {data = objCategoryList});
+		}
 
+		[HttpDelete]
+		public IActionResult Delete(int? id)
+		{
+			var categoryToBeDeleted = _unitOfWork.Category.Get(u => u.id == id);
 
-            Category CategoryFromDb = _unitOfWork.Category.Get(u => u.id == id); // Attempts to find a category using id
+			if (categoryToBeDeleted == null)
+			{
+				return Json(new { success = false, message = "Error while Deleting" });
+			}
+			
+			_unitOfWork.Category.Remove(categoryToBeDeleted);
+			_unitOfWork.Save();
+			
 
-            if (CategoryFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(CategoryFromDb); // If the category is found, it returns a view for editing the category,
-        }
+			return Json(new { success = true, message = "File Deleted Successfully" });
+		}
 
-        [HttpPost, ActionName("Delete")] //used to handle form submissions and other data modifications.
-        public IActionResult DeletePOST(int? id)
-        {
-
-            Category obj = _unitOfWork.Category.Get(u => u.id == id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.Category.Remove(obj);
-            _unitOfWork.Save();
-            TempData["Success"] = "Category Deleted Successfully";
-            return RedirectToAction("Index");
-        }
-    }
+		#endregion
+	}
 }
