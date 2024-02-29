@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Milky.DataAccess.Data;
 using Milky.DataAccess.Repository.IRepository;
 using Milky.Models;
+using Milky.Utility;
 
 namespace MilkyWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles =SD.Role_Admin)]
     public class CategoryController : Controller // defined a new class inherits from controller class of asp.net
     {
         private readonly IUnitOfWork _unitOfWork;     // private field called _db will receive the instance of Applicationdbcontext

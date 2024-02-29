@@ -17,6 +17,34 @@ namespace Milky.Models.ViewModels
         public IEnumerable<SelectListItem> CategoryList { get; set; }
 
         // New property to store selected category IDs
+        [ValidateNever]
         public List<int> SelectedCategoryIds { get; set; }
-    }
+
+        [ValidateNever]
+        public IEnumerable<Product> ProductList { get; set; }
+
+        [ValidateNever]
+        public IEnumerable<SelectListItem> IsTaxIncludedOptions { get; set; }
+
+        [ValidateNever]
+        public IEnumerable<SelectListItem> biologicalSourceOptions { get; set; }
+
+		[ValidateNever]
+		public IEnumerable<SelectListItem> flavorOptions{ get; set; }
+
+        [ValidateNever]
+		public IEnumerable<SelectListItem> UnitOptions { get; set; } //for netQuantity
+
+		[ValidateNever]
+		public string? SelectedUnit { get; set; }
+
+        [ValidateNever]
+        public IEnumerable<SelectListItem> ItemFormOptions { get; set; }
+
+		[ValidateNever]
+		public IEnumerable<SelectListItem> DietTypeOptions { get; set; }
+
+		[ValidateNever]
+		public IEnumerable<SelectListItem> isItemInStockOptions { get; set; }  
+	}
 }

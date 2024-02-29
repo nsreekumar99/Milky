@@ -42,7 +42,45 @@ namespace Milky.Models
 		[ValidateNever]
 		public string ImageUrl { get; set; }
 
-		
+        [ValidateNever]
+        [DisplayName("Is Tax Included")]
+        public string TaxIncluded { get; set; }
 
-	}
+		[ValidateNever]
+		[DisplayName("Biological Source")]
+        public string? BiologicalSource { get; set; }
+
+        [ValidateNever]
+		public string? Flavour { get; set;}
+
+        [ValidateNever]
+        [DisplayName("Item Form")]
+        public string? ItemForm { get; set; }
+
+		[ValidateNever]
+        [DisplayName("Net Quantity")]
+		public string? NetQuantity { get; set; }
+
+		[ValidateNever]
+        [DisplayName("Number of Items")]
+        public uint? NumberOfItems { get; set; }
+
+		[ValidateNever]
+        [DisplayName("Diet Type")]
+        public string? DietType { get; set; }
+
+        [DisplayName("Is Item Currently in Stock?")]
+        public string? isItemInStock { get; set; }
+
+		[DisplayName("Total Number of Items Currently in Stock")]
+
+		[Range(0, uint.MaxValue, ErrorMessage = "Value must be greater than -1.")]
+		public uint MaxNumberOfItemsInStock { get; set; }
+
+
+
+
+
+
+    }
 }

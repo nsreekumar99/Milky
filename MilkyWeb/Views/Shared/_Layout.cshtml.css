@@ -46,3 +46,56 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+@font-face {
+    font-family: 'Lemon-Regular';
+    src: url('/Fonts/Lemon-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RacingSansOneRegular';
+    src: url('/Fonts/RacingSansOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@-webkit-keyframes shine {
+    0%, 10% {
+        background-position: -1000px;
+    }
+
+    40% {
+        background-position: top left;
+    }
+
+    60% {
+        background-position: top right;
+    }
+
+    100% {
+        background-position: 1000px;
+    }
+}
+
+@font-face {
+    font-family: 'Mukta';
+    src: url('/Fonts/Mukta-SemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mukta';
+    src: url('/Fonts/Mukta-ExtraBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cabin-Bold';
+    src: url('/Fonts/Cabin-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

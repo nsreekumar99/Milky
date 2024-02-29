@@ -1,34 +1,52 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Milky.DataAccess.Repository;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Milky.DataAccess.Repository.IRepository;
 using Milky.Models;
-using System.Diagnostics;
 using Milky.Models.ViewModels;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace MilkyWeb.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    public class HomeController : Controller //defining a class name homecontroller that inherits from the controller class of asp.net
+    public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger; // Declares a read only field called _logger of type Ilogger<T>.
-        // This field is intended to store an instance of a logger specific to the homecontroller class,
-        //It allows homecontroller class to log messages and events based on its operation.
         private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork) //contructor of homecontroller; takes in ilogger<t> as parameter and the 
-                                                                                      //parameter name is called logger when the instance of ilogger is created it will pass it to logger variable
-                                                                                      //assigns it to _logger field
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger; //dependency injection
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index() //handle requests to root url
+        public IActionResult Index(IEnumerable<int> selectedCategories)
         {
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
-            return View(productList);
+            var allCategories = _unitOfWork.Category.GetAll().ToList();
+            var allProducts = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+
+            // Apply category filter if selectedCategories is not null
+            if (selectedCategories != null && selectedCategories.Any())
+            {
+                allProducts = allProducts.Where(p => selectedCategories.Contains(p.CategoryID)).ToList();
+            }
+
+            var productVM = new ProductVM
+            {
+                ProductList = allProducts,
+                CategoryList = allCategories.Select(c => new SelectListItem { Value = c.id.ToString(), Text = c.name }),
+                SelectedCategoryIds = selectedCategories?.ToList() ?? new List<int>()
+            };
+
+            ViewBag.Categories = allCategories;
+
+            return View(productVM);
         }
 
+        public IActionResult Buy(int id)
+        {
+            Product product = _unitOfWork.Product.Get(u => u.id == id, includeProperties: "Category");
+            return View(product);   
+        }
         public IActionResult Privacy() //handle requests to privacy ur; Home/privacy
         {
             return View();

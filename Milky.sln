@@ -5,11 +5,11 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MilkyWeb", "MilkyWeb\MilkyWeb.csproj", "{7F55213A-7E80-40C0-B25A-F3C22E5AA2ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milky.DataAccess", "Milky.DataAccess\Milky.DataAccess.csproj", "{5969B01A-5CBC-4DAC-8D8B-6570CBCEAE95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Milky.DataAccess", "Milky.DataAccess\Milky.DataAccess.csproj", "{5969B01A-5CBC-4DAC-8D8B-6570CBCEAE95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milky.Models", "Milky.Models\Milky.Models.csproj", "{84B2D98F-57A7-494A-A1A1-E5BCB33636D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Milky.Models", "Milky.Models\Milky.Models.csproj", "{84B2D98F-57A7-494A-A1A1-E5BCB33636D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milky.Utility", "Milky.Utility\Milky.Utility.csproj", "{3259EAF0-C2B0-4F05-B381-C285550332B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Milky.Utility", "Milky.Utility\Milky.Utility.csproj", "{3259EAF0-C2B0-4F05-B381-C285550332B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

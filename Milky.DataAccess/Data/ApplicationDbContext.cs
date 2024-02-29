@@ -1,12 +1,14 @@
 ﻿// Import the Entity Framework Core namespace to access its classes and functionality.
 
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Milky.Models;
 
 namespace Milky.DataAccess.Data
 {
     // Define a custom database context class named ApplicationDbContext that inherits from DbContext.
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		//This parameter provides configuration options for the database context. 
@@ -18,6 +20,8 @@ namespace Milky.DataAccess.Data
 		}
         public DbSet<Category> Category { get; set; }
 		public DbSet<Product> Products { get; set; }
+
+		public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 		//A DbSet is a class provided by entity framework Core that represents a collection of entities from a specific database table.
 		// Category is the type of entity the DbSet will manage.
 
@@ -30,6 +34,7 @@ namespace Milky.DataAccess.Data
 		// The OnModelCreating class is called when the Entity Framework Core is creating the database model.
 		// It allows you to configure the database schema, relationships, and seed data.
 		{
+			base.OnModelCreating(modelBuilder);
 			
 			modelBuilder.Entity<Category>().HasData
 				//	modelBuilder.Entity<Category> - This line configures the category entity with the model builder.
@@ -51,8 +56,10 @@ namespace Milky.DataAccess.Data
 					Description = "Experience the pure indulgence of our Jersey cow's milk – a rich, creamy delight with a 5+ milk fat content. Sourced from contented cows grazing on lush pastures, our farm-to-table milk promises a taste of unparalleled freshness. Elevate your culinary moments with the exquisite richness of our premium Jersey cow's milk.",
 					MilkFat = "4.5 - 5.5",
 					Price = 55,
+					TaxIncluded = "Yes",
 					CategoryID = 1,
-					ImageUrl =""
+					ImageUrl ="",
+					isItemInStock=""
 				});
 
 		}
