@@ -1,15 +1,17 @@
-﻿@model Product
+﻿@* @model Product *@
+@model ShoppingCart
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml"; // Use your layout file
 }
-
+<form method = "post" asp-action="Buy" asp-controller="Home" >
+    <input hidden asp-for="ProductId" />
 <div class="container-fluid">
     <div class="row justify-content-center">
         
         <div class="col-lg-3 col-md-12 mt-5">
             <!-- Left column (reserved space) -->
-            <img src="@Model.ImageUrl" alt="Product Image" class="img-fluid scale-up centered-pic">
+            <img src="@Model.Product.ImageUrl" alt="Product Image" class="img-fluid scale-up centered-pic">
         </div>
     
 <style>
@@ -76,7 +78,7 @@
                     <div id="titleSection" class="a-section a-spacing-none">
                         <h1 id="title" class="a-size-large a-spacing-none">
                             <span id="productTitle" class="a-size-large product-title-word-break">
-                                @Model.ProductName
+                                @Model.Product.ProductName
                             </span>
                             <span id="titleEDPPlaceHolder"></span>
                         </h1>
@@ -85,7 +87,7 @@
                         <div id="bylineInfo_feature_div" class="celwidget" data-feature-name="bylineInfo" data-csa-c-type="widget" data-csa-c-content-id="bylineInfo" data-csa-c-slot-id="bylineInfo_feature_div" data-csa-c-asin="B0129KE4WS" data-csa-c-is-in-initial-active-row="false" data-csa-c-id="a23fis-lcymye-yegpne-3rs2uv" data-cel-widget="bylineInfo_feature_div">
                             <div class="a-section a-spacing-none">
                                 <span id="category" class="a-size-medium">
-                                    Category: @Model.Category.name
+                                    Category: @Model.Product.Category.name
                                 </span>
                                 <div id="category-line"></div>
                             </div>
@@ -133,7 +135,7 @@
                     <div id="price" class="a-section a-spacing-none">
                         <span aria-hidden="true">
                             <span aria-hidden="true" id="rupee-symbol">₹</span>
-                            <span class="a-price-whole">@Model.Price</span>
+                            <span class="a-price-whole">@Model.Product.Price</span>
                         </span>
                     </div>
                     <style type="text/css">
@@ -158,7 +160,7 @@
                     </style>
                 </div>
 
-                @if (Model.TaxIncluded == "Yes")
+                @if (Model.Product.TaxIncluded == "Yes")
                 {
                     <div>
                         <p>Inclusive of all taxes</p>
@@ -250,59 +252,59 @@
                         </tr>
                         </thead> *@
                         <tbody>
-                            @if (!string.IsNullOrEmpty(Model.MilkFat))
+                            @if (!string.IsNullOrEmpty(Model.Product.MilkFat))
                             {
                                 <tr>
                                     <td>Milk Fat Percent</td>
-                                    <td>@Model.MilkFat</td>
+                                    <td>@Model.Product.MilkFat</td>
                                 </tr>
                             }
 
-                            @if (!string.IsNullOrEmpty(Model.BiologicalSource))
+                            @if (!string.IsNullOrEmpty(Model.Product.BiologicalSource))
                             {
                                 <tr>
                                     <td>Biological Source</td>
-                                    <td>@Model.BiologicalSource</td>
+                                    <td>@Model.Product.BiologicalSource</td>
                                 </tr>
                             }
 
-                            @if (!string.IsNullOrEmpty(Model.Flavour))
+                            @if (!string.IsNullOrEmpty(Model.Product.Flavour))
                             {
                                 <tr>
                                     <td>Flavour</td>
-                                    <td>@Model.Flavour</td>
+                                    <td>@Model.Product.Flavour</td>
                                 </tr>
                             }
 
-                            @if (!string.IsNullOrEmpty(Model.NetQuantity))
+                            @if (!string.IsNullOrEmpty(Model.Product.NetQuantity))
                             {
                                 <tr>
                                     <td>Net Quantity</td>
-                                    <td>@Model.NetQuantity</td>
+                                    <td>@Model.Product.NetQuantity</td>
                                 </tr>
                             }
 
-                            @if (!string.IsNullOrEmpty(Model.ItemForm))
+                            @if (!string.IsNullOrEmpty(Model.Product.ItemForm))
                             {
                                 <tr>
                                     <td>Item Form</td>
-                                    <td>@Model.ItemForm</td>
+                                    <td>@Model.Product.ItemForm</td>
                                 </tr>
                             }
 
-                            @if (!string.IsNullOrEmpty(Model.DietType))
+                            @if (!string.IsNullOrEmpty(Model.Product.DietType))
                             {
                                 <tr>
                                     <td>Diet Type</td>
-                                    <td>@Model.DietType</td>
+                                    <td>@Model.Product.DietType</td>
                                 </tr>
                             }
 
-                            @if (Model.NumberOfItems.HasValue)
+                            @if (Model.Product.NumberOfItems.HasValue)
                             {
                                 <tr>
                                     <td>Number of Items</td>
-                                    <td>@Model.NumberOfItems</td>
+                                    <td>@Model.Product.NumberOfItems</td>
                                 </tr>
                             }
                         </tbody>
@@ -345,13 +347,13 @@
 
                 <!-- VNV Container -->
                 <div id="vnv-container" class="a-section a-spacing-none vnv-container">
-                    @if (Model.DietType == "Vegetarian")
+                    @if (Model.Product.DietType == "Vegetarian")
                     {
                         <!-- Display Vegetarian content -->
                         <img src="~/images/siteIcons/veg.ico" alt="Vegetarian Image" style="max-width: 100%; height: auto;">
                         <span>This is a <strong>Vegetarian</strong> Product.</span>
                     }
-                    else if (Model.DietType == "Non-Vegetarian")
+                    else if (Model.Product.DietType == "Non-Vegetarian")
                     {
                         <!-- Display Non-Vegetarian content -->
                         <img src="~/images/siteIcons/nonveg.ico" alt="Non-Vegetarian Image" style="max-width: 100%; height: auto;">
@@ -401,23 +403,23 @@
             <div id="right-column-box" class="border-box">
                 <div id="price-info">
                     <p class="a-price" data-a-size="xl" data-a-color="base">
-                        <span class="a-price-symbol">₹</span>@Model.Price
+                        <span class="a-price-symbol">₹</span>@Model.Product.Price
                     </p>
                 </div>
 
-                @if (Model.CategoryID == 1)
+                @if (Model.Product.CategoryID == 1)
                 {
                     <div style="color: limegreen; font-family: 'Lemon-Regular', Arial, sans-serif; font-size: 18px; margin-bottom:5px;">
                         Fresh Milk
                     </div>
                 }
-                else if (Model.CategoryID == 2)
+                else if (Model.Product.CategoryID == 2)
                 {
                     <div style="color: limegreen; font-family: 'Lemon-Regular', Arial, sans-serif; font-size: 18px; margin-bottom:5px;">
                         Fresh Curd
                     </div>
                 }
-                else if (Model.CategoryID == 3)
+                else if (Model.Product.CategoryID == 3)
                 {
                     <div style="color: limegreen; font-family: 'Lemon-Regular', Arial, sans-serif; font-size: 18px; margin-bottom:5px;">
                         Fresh Ghee
@@ -508,7 +510,7 @@
                     DateTime afternoonFarmClosingTime = GetAfternoonFarmClosingTime();
                 }
 
-                @if (Model.isItemInStock == "In Stock")
+                @if (Model.Product.isItemInStock == "In Stock")
                 {
                     TimeSpan timeRemaining;
 
@@ -582,13 +584,14 @@
                             <div class="d-flex quantity-selector">
                                 <span style="margin-right: 10px; margin-top:9px;">Quantity:</span> <!-- Added label on the left side -->
                                 <i class="bi bi-dash" style="font-size: 1.5em; cursor: pointer;" onclick="decreaseQuantity()"></i>
-                                <input type="number" class="form-control quantity-input custom-width" value="1" id="quantityInput" oninput="updateQuantity()" readonly>
-                                <i class="bi bi-plus" style="font-size: 1.5em; cursor: pointer;" onclick="increaseQuantity(@Model.MaxNumberOfItemsInStock)"></i>
+                                    <input type="number" class="form-control quantity-input custom-width" value="1" id="quantityInput" oninput="updateQuantity()" asp-for="Count">
+                                <i class="bi bi-plus" style="font-size: 1.5em; cursor: pointer;" onclick="increaseQuantity(@Model.Product.MaxNumberOfItemsInStock)"></i>
                             </div>
                         </div>
 
                         <!-- Add to Cart Button -->
-                        <button type="button" class="btn btn-primary add-to-cart-btn">Add to Cart</button>
+                        @* <button asp-for="Count" type="button" class="btn btn-primary add-to-cart-btn">Add to Cart</button> *@
+                            <input type="submit" value="Add To Cart" class="btn btn-primary add-to-cart-btn" />
                     }
 
                     else if (currentTime >= GetMorningSalesClosingTime() && currentTime < afternoonSalesOpeningTime)
@@ -664,13 +667,13 @@
                             <div class="d-flex quantity-selector">
                                 <span style="margin-right: 10px; margin-top:9px;">Quantity:</span> <!-- Added label on the left side -->
                                 <i class="bi bi-dash" style="font-size: 1.5em; cursor: pointer;" onclick="decreaseQuantity()"></i>
-                                <input type="number" class="form-control quantity-input custom-width" value="1" id="quantityInput" oninput="updateQuantity()" readonly>
-                                <i class="bi bi-plus" style="font-size: 1.5em; cursor: pointer;" onclick="increaseQuantity(@Model.MaxNumberOfItemsInStock)"></i>
+                                    <input type="number" class="form-control quantity-input custom-width" value="1" id="quantityInput" oninput="updateQuantity()" asp-for="Count">
+                                <i class="bi bi-plus" style="font-size: 1.5em; cursor: pointer;" onclick="increaseQuantity(@Model.Product.MaxNumberOfItemsInStock)"></i>
                             </div>
                         </div>
 
                         <!-- Add to Cart Button -->
-                        <button type="button" class="btn btn-primary add-to-cart-btn">Add to Cart</button>
+                            <input type="submit" value="Add To Cart" class="btn btn-primary add-to-cart-btn" />
                     }
 
                     else if (currentTime >= GetAfternoonSalesClosingTime())
@@ -844,7 +847,9 @@
 
             @section Scripts{
                 <script>
+                        
                     function increaseQuantity() {
+                            
                         var quantityInput = document.getElementById('quantityInput');
                         quantityInput.value = parseInt(quantityInput.value) + 1;
                     }
@@ -857,7 +862,12 @@
                     }
 
                     function updateQuantity() {
-                        // You can add additional logic if needed
+                            
+                            var quantityInput = document.getElementById('quantityInput');
+                            var currentQuantity = parseInt(quantityInput.value);
+
+                            // Log the current quantity to the console
+                            console.log('Current Quantity:', currentQuantity);
                     }
                 </script>
 
@@ -867,7 +877,9 @@
                         var currentQuantity = parseInt(quantityInput.value);
 
                         if (currentQuantity < maxItemsInStock) {
+                                console.log('Script loaded!');
                             quantityInput.value = currentQuantity + 1;
+                                
                         } else {
                             // Display a message or handle the case where the max limit is reached
                             console.log('Maximum limit reached');
@@ -878,9 +890,10 @@
 
                             // The rest of your JavaScript functions (decreaseQuantity, updateQuantity) can remain the same
                 </script>
+
             }
 
         </div>
     </div>
 </div>
-
+</form>

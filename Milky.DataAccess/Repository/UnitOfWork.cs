@@ -14,8 +14,12 @@ namespace Milky.DataAccess.Repository
 		private readonly ApplicationDbContext _db;
 
 		// This public property provides both read and write access to an instance that implements the ICategoryRepository interface.
-		public ICategoryRepository Category { get; set; }
-		public IProductRepository Product { get; set; }
+		public ICategoryRepository Category { get; private set; }
+		public IProductRepository Product { get; private set; }
+
+		public IApplicationUserRepository ApplicationUser { get; private set; }
+
+		public IShoppingCartRepository ShoppingCart { get; private set; }
 
 		// Constructor that takes an instance of ApplicationDbContext and calls the base class constructor with it
 		public UnitOfWork(ApplicationDbContext db)
@@ -26,6 +30,9 @@ namespace Milky.DataAccess.Repository
 			// Initializing the Category property with a new instance of CategoryRepository, passing the ApplicationDbContext instance
 			Category = new CategoryRepository(_db);
 			Product = new ProductRepository(_db);
+			ShoppingCart = new ShoppingCartRepository(_db);
+			ApplicationUser =new ApplicationUserRepository(_db);
+
 		}
 
 

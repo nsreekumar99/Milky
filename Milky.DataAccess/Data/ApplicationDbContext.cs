@@ -21,6 +21,8 @@ namespace Milky.DataAccess.Data
         public DbSet<Category> Category { get; set; }
 		public DbSet<Product> Products { get; set; }
 
+		public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+
 		public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 		//A DbSet is a class provided by entity framework Core that represents a collection of entities from a specific database table.
 		// Category is the type of entity the DbSet will manage.
@@ -62,6 +64,9 @@ namespace Milky.DataAccess.Data
 					isItemInStock=""
 				});
 
-		}
+            modelBuilder.Entity<ShoppingCart>().HasKey(s => s.Id); // Set the primary key for ShoppingCart entity
+
+
+        }
     }
 }
