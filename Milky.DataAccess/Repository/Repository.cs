@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Milky.DataAccess.Data;
 using Milky.DataAccess.Repository.IRepository;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Milky.DataAccess.Repository
 {
@@ -31,21 +32,33 @@ namespace Milky.DataAccess.Repository
 		}
 
 		//Method to retrieve a single entity based on a filter expression
-		public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+		public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
 		{
-			IQueryable<T> query = dbSet;
-			query =query.Where(filter); // Apply the filter expression to the query
-			if (!string.IsNullOrEmpty(includeProperties))
-			{
-				foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-				{
-					query = query.Include(includeProp);
-				}
-			}
-			return query.FirstOrDefault(); // Return the first or default result of the query
-		}
+			IQueryable<T> query;
 
-		public IEnumerable<T> GetAll(string? includeProperties=null) // Method to retrieve all entities from the DbSet
+            if (tracked == true)
+			{ 
+			query = dbSet;
+            }
+			else
+			{
+				query = dbSet.AsNoTracking();
+                
+            }
+            query = query.Where(filter); // Apply the filter expression to the query
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+            return query.FirstOrDefault(); // Return the first or default result of the query
+        }
+
+        
+
+        public IEnumerable<T> GetAll(string? includeProperties=null) // Method to retrieve all entities from the DbSet
 		{
 			IQueryable<T> query = dbSet;
 			if(!string.IsNullOrEmpty(includeProperties))

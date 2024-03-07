@@ -14,7 +14,7 @@ namespace Milky.DataAccess.Repository.IRepository // Declare a namespace for the
 		IEnumerable<T> GetAll(string? includeProperties = null); //multiple category extraction
 
 		// Method signature to retrieve a single entity based on a filter expression
-		T Get(Expression<Func<T, bool>> filter, string? includeProperties = null); 
+		T Get(Expression<Func<T, bool>> filter, string? includeProperties = null , bool tracked = false); 
 		void Add(T entity); // Method signature to add an entity of type T
 		void Remove(T entity); // Method signature to remove an entity of type T
 		void RemoveRange(IEnumerable<T> entity); // Method signature to remove a range of entities of type T
