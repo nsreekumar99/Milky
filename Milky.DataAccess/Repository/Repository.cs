@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Milky.DataAccess.Data;
 using Milky.DataAccess.Repository.IRepository;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Milky.Models.ViewModels;
+
 
 namespace Milky.DataAccess.Repository
 {
@@ -36,7 +38,7 @@ namespace Milky.DataAccess.Repository
 		{
 			IQueryable<T> query;
 
-            if (tracked == true)
+            if (tracked)
 			{ 
 			query = dbSet;
             }
@@ -58,10 +60,14 @@ namespace Milky.DataAccess.Repository
 
         
 
-        public IEnumerable<T> GetAll(string? includeProperties=null) // Method to retrieve all entities from the DbSet
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null) // Method to retrieve all entities from the DbSet
 		{
 			IQueryable<T> query = dbSet;
-			if(!string.IsNullOrEmpty(includeProperties))
+			if (filter != null)
+			{
+				query = query.Where(filter);
+			}
+			if (!string.IsNullOrEmpty(includeProperties))
 			{
 				foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
 				{

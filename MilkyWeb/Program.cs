@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Milky.DataAccess.Data;
 using Milky.DataAccess.Repository;
 using Milky.DataAccess.Repository.IRepository;
@@ -7,6 +7,7 @@ using Milky.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Milky.Models;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +65,12 @@ app.UseAuthorization();
 
 // Use session middleware
 app.UseSession();
+
+//Set culture settings
+var cultureInfo = new CultureInfo("en-US");
+cultureInfo.NumberFormat.CurrencySymbol ="₹";
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 app.MapRazorPages();
 app.MapControllerRoute(

@@ -11,7 +11,7 @@ namespace Milky.DataAccess.Repository.IRepository // Declare a namespace for the
 	public interface IRepository<T> where T : class // Declare a generic interface IRepository<T> where T is a class
 	{
 		// Method signature to retrieve all entities of type T
-		IEnumerable<T> GetAll(string? includeProperties = null); //multiple category extraction
+		IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter=null, string? includeProperties = null); //multiple category extraction
 
 		// Method signature to retrieve a single entity based on a filter expression
 		T Get(Expression<Func<T, bool>> filter, string? includeProperties = null , bool tracked = false); 

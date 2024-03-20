@@ -83,6 +83,9 @@ namespace MilkyWeb.Areas.Customer.Controllers
 
             shoppingCart.ApplicationUserId = userId;
 
+
+            //checks if there is already a shopping cart in the database for the given userId and ProductId.
+            //if cart exist retrieves the information and stores in var cartFromDb
             ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u=>u.ApplicationUserId == userId && 
             u.ProductId ==shoppingCart.ProductId);
 
