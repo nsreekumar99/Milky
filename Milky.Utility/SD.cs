@@ -19,10 +19,15 @@ namespace Milky.Utility
 		public const string StatusReadyforPickup = "Ready For Pickup";
 		public const string StatusCancelled = "Cancelled";
 		public const string StatusRefunded = "Refunded";
+		public const string StatusCompleted = "Completed";
 
 		public const string PaymentStatusPending = "Pending";
 		public const string PaymentStatusApproved = "Approved";
 		public const string PaymentStausRejected = "Rejected";
+
+		//session related data
+
+		public const string SessionCart = "SessionShoppingCart";
 
 	}
 }

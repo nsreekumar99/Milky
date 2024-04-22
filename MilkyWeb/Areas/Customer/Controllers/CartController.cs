@@ -36,12 +36,48 @@ namespace MilkyWeb.Areas.Customer.Controllers
 				OrderHeader = new()
 			};
 
-			foreach (var cart in ShoppingCartVM.ShoppingCartList)
+			if (ShoppingCartVM.ShoppingCartList != null)
 			{
-				cart.Price = GetPriceBasedOnQuantity(cart);
-				ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+				foreach (var cart in ShoppingCartVM.ShoppingCartList)
+				{
+					//if (cart.Product.isItemInStock == "In Stock" && !IsWithinOperationalHours())
+					//{
+					//	_unitOfWork.ShoppingCart.Remove(cart);
+					//	_unitOfWork.Save();
+					//}
+					
+					//if(cart.Product.isItemInStock == "Out Of Stock")
+					//{
+					//	_unitOfWork.ShoppingCart.Remove(cart);
+					//	_unitOfWork.Save();
+					//}
+					if(cart.Product.isItemInStock == "In Stock" && IsWithinOperationalHours())
+					{
+						cart.Price = GetPriceBasedOnQuantity(cart);
+						ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+					}
+					else
+					{
+						_unitOfWork.ShoppingCart.Remove(cart);
+						_unitOfWork.Save();
+					}
+				}
 			}
+			//Reload ShoppingCart data from database
+			ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Product");
 			return View(ShoppingCartVM);
+		}
+
+		private bool IsWithinOperationalHours()
+		{
+			var currentTime = DateTime.Now.TimeOfDay;
+			var morningOpeningTime = new TimeSpan(5, 0, 0); // 5 AM
+			var morningClosingTime = new TimeSpan(7, 0, 0); // 7 AM
+			var afternoonOpeningTime = new TimeSpan(14, 0, 0); // 2 PM
+			var afternoonClosingTime = new TimeSpan(16, 0, 0); // 4 PM
+
+			return (currentTime >= morningOpeningTime && currentTime <= morningClosingTime) ||
+				   (currentTime >= afternoonOpeningTime && currentTime <= afternoonClosingTime);
 		}
 
 		public IActionResult Summary()
@@ -192,6 +228,8 @@ namespace MilkyWeb.Areas.Customer.Controllers
 
 
 					}
+					HttpContext.Session.Clear();
+
 					List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.
 						GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId).ToList(); // gets the shopping cart list for specific user.
 					_unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
@@ -207,7 +245,7 @@ namespace MilkyWeb.Areas.Customer.Controllers
 			{
 				return NotFound();
 			}
-        }
+		}
 
 		//private string GenerateUniqueCode()
 		//{
@@ -238,9 +276,11 @@ namespace MilkyWeb.Areas.Customer.Controllers
 				if (quantity < 1)
 				{
 					_unitOfWork.ShoppingCart.Remove(cartItem);
-					_unitOfWork.Save();
+                    HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.
+                GetAll(u => u.ApplicationUserId == cartItem.ApplicationUserId).Count() - 1);
+                    _unitOfWork.Save();
 
-					var claimsIdentity = (ClaimsIdentity)User.Identity;
+                    var claimsIdentity = (ClaimsIdentity)User.Identity;
 					var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
 					// Recalculate order total based on the updated quantity
@@ -304,8 +344,11 @@ namespace MilkyWeb.Areas.Customer.Controllers
 		{
 			var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId); //finds the shopping cart entity based on id received from view
 			_unitOfWork.ShoppingCart.Remove(cartFromDb);
-			_unitOfWork.Save();
-			TempData["success"] = "Product removed from cart successfully";
+			//_unitOfWork.Save();
+			HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.
+				GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
+            _unitOfWork.Save();
+            TempData["success"] = "Product removed from cart successfully";
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -325,7 +368,10 @@ namespace MilkyWeb.Areas.Customer.Controllers
 
 				_unitOfWork.Save();
 
-				TempData["success"] = "All items deleted successfully";
+                // Update session variable for cart count to reflect that the cart is empty
+                HttpContext.Session.Remove(SD.SessionCart);
+
+                TempData["success"] = "All items deleted successfully";
 				return RedirectToAction(nameof(Index));
 			}
 			catch (Exception ex)

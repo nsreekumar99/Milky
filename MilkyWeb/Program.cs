@@ -45,8 +45,14 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddDistributedMemoryCache();
 // Add session support
-builder.Services.AddSession();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 // Add TempData configuration
 builder.Services.AddMvc().AddSessionStateTempDataProvider();
 builder.Services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();

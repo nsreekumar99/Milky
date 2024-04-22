@@ -280,6 +280,9 @@
 
 							updateTotalProductCount(response.totalProductCount);
 
+							// Update cart count in the layout
+							updateCartCount(response.totalProductCount);
+
 							// // Update the count of items in the cart
 							// updateCartItemCount(response.newCartItemCount);
 
@@ -294,6 +297,9 @@
 							updateCartItemCount(response.newCartItemCount);
 
 						}
+
+						// // Update cart count in the layout
+						// updateCartCount(response.totalProductCount);
 
 					},
 					error: function (xhr, status, error) {
@@ -366,6 +372,15 @@
 						}) ?? '';
 					}
 				});
+			}
+
+			// Function to update the cart count in the layout
+			function updateCartCount(newCartCount) {
+				var cartCountElement = document.getElementById('cartCount');
+				if (cartCountElement) {
+					// cartCountElement.innerText = newCartCount;
+					cartCountElement.innerText = '(' + newCartCount + ')';
+				}
 			}
 
 		</script>

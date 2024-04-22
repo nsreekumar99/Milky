@@ -41,5 +41,12 @@ namespace Milky.Models
 		public string PhoneNumber { get; set; }
 
 		public string? UniqueCode { get; set; }
-	}
+
+		public TimeOnly? StartedProcessingTime { get; set; }
+
+		public TimeOnly? FinishedProcessingTime { get; set; }
+
+        public TimeOnly? OrderPickupTime { get; set; }
+
+    }
 }

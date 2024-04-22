@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
+using Milky.Utility;
+using Microsoft.AspNetCore.Http;
 
 namespace MilkyWeb.Areas.Customer.Controllers
 {
@@ -23,6 +25,14 @@ namespace MilkyWeb.Areas.Customer.Controllers
 
         public IActionResult Index(IEnumerable<int> selectedCategories)
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if(claim != null)
+            {
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.GetAll(u=>u.ApplicationUserId == claim.Value).Count());
+            }
+
             var allCategories = _unitOfWork.Category.GetAll().ToList();
             var allProducts = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
 
@@ -93,14 +103,18 @@ namespace MilkyWeb.Areas.Customer.Controllers
                 //update cart
                 cartFromDb.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
+                _unitOfWork.Save();
             }
             else
             {
                 //add cart
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart, 
+                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
             }
             TempData["success"] = "Cart Updated Successfully";
-            _unitOfWork.Save();
+            //_unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
         }
