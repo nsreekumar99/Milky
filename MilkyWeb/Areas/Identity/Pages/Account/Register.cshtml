@@ -7,7 +7,14 @@
         <div class="card mt-5">
             <div class="card-body">
                     <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                        <h2 class="text-center">Sign Up</h2>
+                        @if (User.IsInRole(SD.Role_Admin))
+                        {
+                            <h2 class="text-center">Sign Up Admin-Portal</h2>
+                        }
+                        else
+                        {
+                            <h2 class="text-center">Sign Up</h2>
+                        }
                         <hr />
                         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                         <div class="form-floating mb-3">

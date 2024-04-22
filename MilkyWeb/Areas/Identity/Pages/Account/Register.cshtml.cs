@@ -155,8 +155,28 @@ namespace MilkyWeb.Areas.Identity.Pages.Account
             // Check if the user is already authenticated
             if (_signInManager.IsSignedIn(User))
             {
-                // User is already logged in, redirect to return URL
-                return LocalRedirect(returnUrl);
+                //get user information
+                var user = await _userManager.GetUserAsync(User);
+
+                if(user != null && await _userManager.IsInRoleAsync(user, SD.Role_Admin))
+                {
+                    // Admin user is authenticated, allow them to access the register page
+                    Input = new InputModel
+                    {
+                        RoleList = _roleManager.Roles.Select(i => new SelectListItem
+                        {
+                            Text = i.Name,
+                            Value = i.Name
+                        }).ToList()
+                    };
+
+                    return Page();
+                }
+                else
+                {
+                    // User is already logged in, redirect to return URL
+                    return LocalRedirect(returnUrl);
+                }
             }
 
             //injecting roles to database if no roles are detected during signup
