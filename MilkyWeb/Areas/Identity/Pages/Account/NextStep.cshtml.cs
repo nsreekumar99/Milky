@@ -46,6 +46,7 @@ namespace MilkyWeb.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<NextStepModel> _logger;
+        private readonly IEmailSender _emailSender;
 
         public class InputModel
         {
@@ -102,12 +103,13 @@ namespace MilkyWeb.Areas.Identity.Pages.Account
 
         }
 
-        public NextStepModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<NextStepModel> logger)
+        public NextStepModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<NextStepModel> logger, IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _emailSender = emailSender;
 
             RegisterVM = new RegisterVM()
             {
@@ -125,6 +127,7 @@ namespace MilkyWeb.Areas.Identity.Pages.Account
                     new SelectListItem { Value = "Karunagappally", Text = "Karunagappally" },
                 }
             };
+            _emailSender = emailSender;
         }
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
@@ -241,7 +244,19 @@ namespace MilkyWeb.Areas.Identity.Pages.Account
 
                         var userId = await _userManager.GetUserIdAsync(ApplicationUser);
 
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(ApplicationUser);
+                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                            protocol: Request.Scheme);
+
+                        await _emailSender.SendEmailAsync(ApplicationUser.Email, "Confirm your email",
+                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+
+                        if (_userManager.Options.SignIn.RequireConfirmedAccount && !User.IsInRole(SD.Role_Admin))
                         {
                             return RedirectToPage("RegisterConfirmation", new { email = Input1.Email, returnUrl = returnUrl });
                         }

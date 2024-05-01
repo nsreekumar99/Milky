@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Milky.Models;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Milky.Utility;
 
 namespace MilkyWeb.Areas.Identity.Pages.Account
 {
@@ -22,11 +24,13 @@ namespace MilkyWeb.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -110,19 +114,68 @@ namespace MilkyWeb.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
+                // Declare the result variable outside the if block
+                Microsoft.AspNetCore.Identity.SignInResult result;
+
+                //check if user is an admin
+                if (await _userManager.IsInRoleAsync(user, SD.Role_Admin))
+                {
+                    //result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false, two);
+                    //if (result.Succeeded)
+                    //{
+                    //    _logger.LogInformation("Admin logged in.");
+                    //    return LocalRedirect(returnUrl);
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    //    return Page();
+                    //}
+
+                    var isValidAdminLogin = await _userManager.CheckPasswordAsync(user, Input.Password);
+                    if (isValidAdminLogin)
+                    {
+                        // Sign in the admin user directly without invoking two-factor authentication
+                        await _signInManager.SignInAsync(user, Input.RememberMe);
+                        _logger.LogInformation("Admin logged in.");
+                        return LocalRedirect(returnUrl);
+                    }
+                    else
+                    {
+                        // Invalid login attempt
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return Page();
+                    }
+
+                }
+
+                if (!await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var result1 = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                if (result1.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
                     return LocalRedirect(returnUrl);
                 }
-                if (result.RequiresTwoFactor)
+                if (result1.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
-                if (result.IsLockedOut)
+                if (result1.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");

@@ -32,7 +32,11 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-subtitle mb-3 text-muted">Order Status: @orderVM.OrderHeader.OrderStatus</h5>
+                   <h5 class="card-subtitle mb-3 text-muted">
+                        Order Status: <span class="@GetOrderStatusTextColor(orderVM.OrderHeader.OrderStatus)"> 
+                            @orderVM.OrderHeader.OrderStatus
+                        </span>
+                   </h5>
                     <!-- Loop through order details for this order -->
                     @foreach (var orderDetail in orderVM.OrderDetail)
                     {
@@ -56,3 +60,24 @@
         </div>
     }
 </div>
+
+@functions {
+    // Helper function to map order status to Bootstrap text color class
+    string GetOrderStatusTextColor(string orderStatus)
+    {
+        switch (orderStatus)
+        {
+            case "Approved":
+                return "text-primary";
+            case "Ready For Pickup":
+                return "text-success";
+            case "Cancelled":
+                return "text-danger";
+            case "Processing":
+                return "text-warning";
+            default:
+                return "text-primary";
+        }
+    }
+}
+
