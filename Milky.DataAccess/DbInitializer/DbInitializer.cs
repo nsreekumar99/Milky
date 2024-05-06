@@ -53,19 +53,19 @@ namespace Milky.DataAccess.DbInitializer
                 //if roles not created create an admin user aswell
                 _userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName = "nandagopansreekumar98@gmail.com",
-                    Email = "nandagopansreekumar98@gmail.com",
-                    Name = "Nandagopan Sreekumar",
-                    PhoneNumber = "916238025784",
-                    Address = "House No 37,neeravil lps nagar,kollam,kerala",
-                    City = "Kollam",
-                    PostalCode = "691601",
-                    State = "Kerala",
-                    Street = "Thrikkadavoor",
-                }, "Password#$99").GetAwaiter().GetResult();
+                    UserName = "yourgmail@gmail.com",
+                    Email = "yourgmail@gmail.com",
+                    Name = "Your Name",
+                    PhoneNumber = "9112234323",
+                    Address = "Your Address",
+                    City = "Your City",
+                    PostalCode = "Your Postal Code",
+                    State = "Your State",
+                    Street = "Your Street",
+                }, "Password").GetAwaiter().GetResult();
 
                 //retrieve user object from database
-                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "nandagopansreekumar98@gmail.com");
+                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "yourgmail@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
             return;
