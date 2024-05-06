@@ -6,6 +6,8 @@ using Milky.Models.ViewModels;
 using Milky.Utility;
 using Stripe;
 using System.Diagnostics;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace MilkyWeb.Areas.Admin.Controllers
 {
@@ -14,13 +16,15 @@ namespace MilkyWeb.Areas.Admin.Controllers
 	public class OrderController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _emailSender;
 
-		[BindProperty]
+        [BindProperty]
 		public OrderVM OrderVM { get; set; }
 
-        public OrderController(IUnitOfWork unitOfWork)
+        public OrderController(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
 			_unitOfWork = unitOfWork;
+			_emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -57,11 +61,15 @@ namespace MilkyWeb.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult StartProcessing()
 		{
-			var orderHeader = _unitOfWork.OrderHeader.Get(u=>u.Id ==  OrderVM.OrderHeader.Id);
+			var orderHeader = _unitOfWork.OrderHeader.Get(u=>u.Id ==  OrderVM.OrderHeader.Id, includeProperties: "ApplicationUser");
 			orderHeader.StartedProcessingTime = TimeOnly.FromTimeSpan(DateTime.Now.TimeOfDay);
 			_unitOfWork.OrderHeader.Update(orderHeader);
             _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, SD.StatusInProcess);
             _unitOfWork.Save();
+
+			_emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "Started Processing",
+				$"<p>The seller has started processing your order.</p>"+
+				$"<p>Started Processing at: {orderHeader.StartedProcessingTime}</p>");
 
 			TempData["success"] = "Order Processed Successfully";
 			return RedirectToAction(nameof(Details), new {orderId = OrderVM.OrderHeader.Id});
@@ -70,11 +78,19 @@ namespace MilkyWeb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult ReadyForPickup()
         {
-            var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
+            var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id, includeProperties:"ApplicationUser");
             orderHeader.FinishedProcessingTime = TimeOnly.FromTimeSpan(DateTime.Now.TimeOfDay);
 			_unitOfWork.OrderHeader.Update(orderHeader);
             _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, SD.StatusReadyforPickup);
             _unitOfWork.Save();
+
+            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "Ready For Pickup",
+                $"<p>Order processing has been completed. Your product is now ready for pickup.</p>"+
+				$"<p>Please collect the order before next closing time</P>"+
+                $"<p>Finished Processing at: {orderHeader.FinishedProcessingTime}</p>"+
+                $"<p>You can use the link below to locate us:</p>" +
+                "https://maps.app.goo.gl/6sbgMjoSuRAa4fEz5");
+
 
             TempData["success"] = "Order is Ready For Pickup";
             return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });

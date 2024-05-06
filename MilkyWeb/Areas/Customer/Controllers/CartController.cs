@@ -17,12 +17,15 @@ namespace MilkyWeb.Areas.Customer.Controllers
 	public class CartController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		
+		private readonly IEmailSender _emailSender;
 
 		[BindProperty]
 		public ShoppingCartVM ShoppingCartVM { get; set; }
-		public CartController(IUnitOfWork unitOfWork)
+		public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender)
 		{
 			_unitOfWork = unitOfWork;
+			_emailSender = emailSender;
 		}
 
 		public IActionResult Index()
@@ -198,6 +201,7 @@ namespace MilkyWeb.Areas.Customer.Controllers
 			string currentUserID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
 			OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
+			OrderDetail orderDetail = _unitOfWork.OrderDetail.Get(u => u.Id == id, includeProperties: "Product");
 
 			if (orderHeader != null && orderHeader.ApplicationUserId == currentUserID)
 			{
@@ -220,15 +224,57 @@ namespace MilkyWeb.Areas.Customer.Controllers
 							// Implement a method to update UniqueCode directly in the repository
 							_unitOfWork.OrderHeader.UpdateUniqueCode(id, uniqueCode);
 							_unitOfWork.Save();
-							// Reload the orderHeader entity from the database
+                            // Reload the orderHeader entity from the database
 
+                            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New order has been placed successfully",
+                        $"<p style='font-size: 18px;'>Your order has been placed and order processing will begin soon.<P>" +
+                        //$"<br>" +
+                        $"<p> Order Number: {orderHeader.Id}</p>" +
+                        //$"<br>" +
+                        $"<p> Secret Key: {uniqueCode}</p>"+
+                        $"<p> Order Placed at: {orderHeader.OrderDate}</p>" +
+                        $"<p>You can use the link below to locate us:</p>" +
+                        "https://maps.app.goo.gl/6sbgMjoSuRAa4fEz5");
+                        }
+
+						//logic to decrement product count from product database after user placed an order..
+
+                        // Get the OrderDetails associated with the OrderHeader
+                        var orderDetails1 = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == id, includeProperties: "Product");
+
+                        foreach ( var orderdetail in orderDetails1){
+
+							if (orderdetail.Count > 0)
+							   {
+								orderdetail.Product.MaxNumberOfItemsInStock -= (uint)orderdetail.Count;
+								_unitOfWork.Product.Update(orderdetail.Product);
+                            }
+							}
+						_unitOfWork.Save();
+
+						var allProducts = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
+
+						foreach( var product in allProducts)
+						{
+							if(product.MaxNumberOfItemsInStock <= 0)
+							{
+								product.isItemInStock = "Out Of Stock";
+								_unitOfWork.Product.Update(product); 
+							}
 						}
 
-						_unitOfWork.Save();
+                        _unitOfWork.Save();
 
 
 					}
 					HttpContext.Session.Clear();
+
+					//_emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New order has been placed successfully",
+					//	$"<p style='font-size: 18px;'>Your Order has been placed and order processing will begin soon<P>" +
+     //                   $"<br>" +
+     //                   $"<p> Order Number: {orderHeader.Id}</p>"+
+     //                   $"<br>" +
+					//	$"<p> Secret Key: {orderHeader.UniqueCode}</p>");
 
 					List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.
 						GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId).ToList(); // gets the shopping cart list for specific user.
