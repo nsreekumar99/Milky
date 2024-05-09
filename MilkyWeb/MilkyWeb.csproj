@@ -54,4 +54,6 @@
     <None Include="wwwroot\js\category.js" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties dummyappsettings_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
+
 </Project>
