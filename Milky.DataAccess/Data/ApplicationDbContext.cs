@@ -12,7 +12,7 @@ namespace Milky.DataAccess.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		//This parameter provides configuration options for the database context. 
-		//It allows you to specify how the context should be configured, such as the database provider 
+		//It allows you to specify how the context should be configured, such as the database provider .
 		//(e.g., SQL Server, SQLite), connection string, and other database-related settings.
 		// base(options) -calls the constructor of the base class(dbContext) and passes the options parameters into it.
 		{
