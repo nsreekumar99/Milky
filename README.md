@@ -14,7 +14,7 @@ This is a dynamic ASP.NET Core MVC website designed to streamline the distributi
 
 ### The "Buy" or "Add to Cart" button is only visible during farm operational hours.
 
-![Operational Hours](MilkyWeb/wwwroot/images/Screenshot_1021.png)
+![Operational Hours](MilkyWeb/wwwroot/images/Screenshot_1022.png)
 
 ### The website is crafted with Bootstrap 5 and JavaScript for seamless, real-time updates without page reloads.
 
