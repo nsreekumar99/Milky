@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 
 /Milky.DataAccess/DbInitializer/DbInitializer.cs
+/MilkyWeb/appsettings.json
+/MilkyWeb/appsettings.Development.json
