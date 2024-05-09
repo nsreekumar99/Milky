@@ -11,9 +11,9 @@ namespace MilkyWeb.Areas.Admin.Controllers
     [Authorize(Roles =SD.Role_Admin)]
     public class CategoryController : Controller // defined a new class inherits from controller class of asp.net
     {
-        private readonly IUnitOfWork _unitOfWork;     // private field called _db will receive the instance of Applicationdbcontext
-        public CategoryController(IUnitOfWork unitOfWork) //takes the instance of applicationdbcontext as parameter 
-                                                          //and assigns it to _db
+        private readonly IUnitOfWork _unitOfWork;     
+        public CategoryController(IUnitOfWork unitOfWork) 
+                                                          
         {
             _unitOfWork = unitOfWork;
         }
@@ -71,10 +71,10 @@ namespace MilkyWeb.Areas.Admin.Controllers
             return View(CategoryFromDb); // If the category is found, it returns a view for editing the category,
         }
 
-        [HttpPost] //used to handle form submissions and other data modifications.
+        [HttpPost] 
         public IActionResult Edit(Category obj)
         {
-            if (ModelState.IsValid)  //check validations
+            if (ModelState.IsValid)  
             {
                 _unitOfWork.Category.Update(obj); //add object to database catagory
                 _unitOfWork.Save();

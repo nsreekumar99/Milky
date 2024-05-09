@@ -22,7 +22,7 @@ namespace Milky.DataAccess.Repository
 
 		internal DbSet<T> dbSet; // Field named dbSet of type DbSet<T>
 
-        public Repository(ApplicationDbContext db) //Constructor that takes an instance of ApplicationDbContext and initializes _db
+        public Repository(ApplicationDbContext db) 
 		{
             _db = db; 
 			this.dbSet = _db.Set<T>(); //Initialize the dbSet field with the DbSet<T> for the entity type T in the context

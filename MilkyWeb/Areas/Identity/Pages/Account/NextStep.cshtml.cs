@@ -200,7 +200,7 @@ namespace MilkyWeb.Areas.Identity.Pages.Account
                 }
 
 
-                // Assuming ApplicationUser properties are properly populated from the form
+                
                 if (ModelState.IsValid)
                 {
                     ApplicationUser = new ApplicationUser();

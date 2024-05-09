@@ -14,11 +14,11 @@ namespace Milky.Models
 	public class Product
 	{
 		[Key] //primary key
-		public int id { get; set; } //get-read, set -write
+		public int id { get; set; } 
 
-		[Required] // The name variables after this line of code shouldnt be null
+		[Required] 
 
-		[MaxLength(30)] //validations
+		[MaxLength(30)] 
 
 		[DisplayName("Product Name")]
 		public string ProductName { get; set; }

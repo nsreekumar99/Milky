@@ -6,9 +6,9 @@ namespace Milky.Models
     public class Category
     {
         [Key] //primary key
-        public int id { get; set; } //get-read, set -write
+        public int id { get; set; } 
 
-        [Required] // The name variables after this line of code shouldnt be null
+        [Required] 
         [MaxLength(30)] //validations
         [DisplayName("Category Name")]
 		public string name { get; set; }

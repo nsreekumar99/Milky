@@ -2,7 +2,7 @@
 @model ShoppingCart
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml"; // Use your layout file
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
 <form method = "post" asp-action="Buy" asp-controller="Home" >
     <input hidden asp-for="ProductId" />
@@ -17,8 +17,8 @@
 <style>
     /* Custom styling for the product name */
     .scale-up {
-        transform: scale(1.2); /* Adjust the scale factor as needed */
-        transition: transform 0.3s ease; /* Optional: Add a smooth transition effect */
+        transform: scale(1.2); 
+        transition: transform 0.3s ease; /* smooth transition effect */
     }
 
     .centered-pic {
@@ -28,7 +28,7 @@
         margin-right: auto;
         margin-bottom: 40px;
         margin-top: 5px;
-        max-width: 100%; /* Ensure the image doesn't exceed its container */
+        max-width: 100%; 
     }
 
     /* Responsive styles using Bootstrap classes */
@@ -99,7 +99,7 @@
                         }
 
                         #titleSection {
-                            margin: 20px auto; /* Adjust margin and set auto for centering */
+                            margin: 20px auto; 
                             -webkit-text-size-adjust: 100%;
                             font-size: 14px;
                             line-height: 20px;
@@ -116,16 +116,16 @@
                         #category {
                             font-size: 16px;
                             line-height: 24px;
-                            color: #30818b; /* Adjust color as needed */
+                            color: #30818b; 
                         }
 
                         #bylineInfo_feature_div {
-                            margin-top: -8px; /* Adjust this value to move the category up */
+                            margin-top: -8px; 
                         }
 
                         #category-line {
                             border-bottom: 1px solid #bfc3c3; /* Add a black horizontal line (border) */
-                            margin-bottom: 10px; /* Add margin below the line for spacing */
+                            margin-bottom: 10px; 
                         }
 
                     </style>
@@ -142,7 +142,7 @@
                         #price {
                             font-size: 35px; /* Adjust the font size for the price */
                             color: #0F1111; /* Set the color of the price */
-                            margin-top: -10px; /* Add margin for spacing */
+                            margin-top: -10px; 
                             vertical-align: top;
                             display: inline-block;
                         }
@@ -151,11 +151,11 @@
                             font-size: 60%; /* Adjust the font size for the rupee symbol */
                             vertical-align: top; /* Move the rupee symbol to the top */
                             position: relative;
-                            top: 5px; /* Adjust this value as needed */
+                            top: 5px; 
                         }
 
                         #price .a-price-whole {
-                            margin-left: -10px; /* Adjust this value to bring the price closer to the rupee symbol */
+                            margin-left: -10px; /* value to bring the price closer to the rupee symbol */
                         }
                     </style>
                 </div>
@@ -207,27 +207,27 @@
                     </div>
                     <style type="text/css">
                         .icon-farm-wrapper {
-                            /* Add the necessary styles for horizontal display */
+                            /* styles for horizontal display */
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
                             flex-wrap: wrap;
                             /* Add border styles */
                             border: 1px solid #bfc3c3; /* 1px solid border with color #30818b */
-                            padding: 10px; /* Add padding for spacing inside the border */
+                            padding: 10px; /* padding for spacing inside the border */
                         }
 
                         .icon-container {
-                            /* Adjust styles for each icon container */
+                            /* styles for each icon container */
                             box-sizing: border-box;
-                            width: 30%; /* Adjust as needed based on the number of items */
+                            width: 30%; 
                             text-align: center;
-                            margin: 10px 0; /* Add margin for spacing */
+                            margin: 10px 0; 
                         }
 
                         .icon-content {
-                            /* Adjust styles for icon content */
-                            margin-top: 5px; /* Add margin for spacing */
+                            /* styles for icon content */
+                            margin-top: 5px; 
                             color: #30818b;
                         }
 
@@ -312,10 +312,10 @@
 
                     <!-- Styling for the table -->
                     <style type="text/css">
-                        /* Add your existing styles here */
+                        
 
                         #itemDetailsContainer {
-                            /* Add container styles if needed */
+                            
                         }
 
                         table {
@@ -340,7 +340,7 @@
 
                         /* Make the first column (Attribute) and value column take the same width */
                         th, td {
-                            width: 50%; /* Adjust this value as needed */
+                            width: 50%; 
                         }
                     </style>
                 </div>
@@ -432,7 +432,7 @@
 
                     DateTime GetCurrentTime()
                     {
-                        // You can adjust this based on your application's timezone requirements
+                        
                         DateTime currentTime = DateTime.Now;
 
                         // Print current date to the debug output
@@ -444,56 +444,56 @@
                     // Function to get morning sales opening time
                     DateTime GetMorningSalesOpeningTime()
                     {
-                        // You can adjust this based on your business hours
+                        
                         return DateTime.Today.AddHours(5); // Assuming morning sales opening time is at 5 am
                     }
 
                     // Function to get morning sales closing time
                     DateTime GetMorningSalesClosingTime()
                     {
-                        // You can adjust this based on your business hours
+                        
                         return DateTime.Today.AddHours(7); // Assuming morning sales closing time is at 7 am
                     }
 
                     // Function to get evening sales opening time
                     DateTime GetAfternoonSalesOpeningTime()
                     {
-                        // You can adjust this based on your business hours
+                        
                         return DateTime.Today.AddHours(14); // Assuming evening sales opening time is at 2 pm
                     }
 
                     // Function to get evening sales closing time
                     DateTime GetAfternoonSalesClosingTime()
                     {
-                        // You can adjust this based on your business hours
+                        
                         return DateTime.Today.AddHours(16); // Assuming evening sales opening time is at 2 pm
                     }
 
                     // Function to get morning farm opening time
                     DateTime GetMorningFarmOpeningTime()
                     {
-                        // Assuming morning farm opening time is at 5 am
+                        // morning farm opening time is at 5 am
                         return DateTime.Today.AddHours(5);
                     }
 
                     // Function to get morning farm closing time
                     DateTime GetMorningFarmClosingTime()
                     {
-                        // Assuming morning farm closing time is at 8 am
+                        // morning farm closing time is at 8 am
                         return DateTime.Today.AddHours(8);
                     }
 
                     // Function to get afternoon farm opening time
                     DateTime GetAfternoonFarmOpeningTime()
                     {
-                        // Assuming afternoon farm opening time is at 2 pm
+                        // afternoon farm opening time is at 2 pm
                         return DateTime.Today.AddHours(14);
                     }
 
                     // Function to get afternoon farm closing time
                     DateTime GetAfternoonFarmClosingTime()
                     {
-                        // Assuming afternoon farm closing time is at 5 pm
+                        // afternoon farm closing time is at 5 pm
                         return DateTime.Today.AddHours(17);
                     }
                 }
@@ -525,7 +525,7 @@
                             <span style="color: #007600; font-family: 'Mukta-ExtraBold'; font-size:20px;">In Stock</span>
                         </p>
                         <p style="text-align:left; margin-bottom:5px;">
-                            <!-- Adjust the padding-left value based on your preference -->
+                            
                             <button type="button" class="btn btn-link custom-left-align custom-location-text" data-bs-toggle="modal" data-bs-target="#locationModal">
                                 <i class="bi bi-geo-alt-fill" style="font-size: 2.0em;"></i> <span class="custom-location-text">Our Location</span>
                             </button>
@@ -545,33 +545,33 @@
                                 .quantity-selector i {
                                     font-size: 1.5em;
                                     cursor: pointer;
-                                    border: 1px solid #ced4da; /* Border color matching your input area */
+                                    border: 1px solid #ced4da; /* Border color matching input area */
                                     border-radius: 0; /* Remove border-radius to make it visually connected */
-                                    padding: 0.25rem; /* Optional: Add padding for spacing */
+                                    padding: 0.25rem; /* padding for spacing */
                                     margin: 0 -1px; /* Adjust margin to visually connect icons */
-                                    background-color: #f9f9f9; /* Optional: Add background color to match input area */
+                                    background-color: #f9f9f9; /* background color to match input area */
                                 }
 
-                                /* Optional: Adjust styling for input area */
+                                /* styling for input area */
                                 .quantity-selector input {
                                     border: 1px solid #ced4da;
                                     border-radius: 0;
                                     margin: 0;
                                     text-align: center; /* Center text horizontally */
-                                    padding-right: 0; /* Remove right padding */
+                                    padding-right: 0; 
                                 }
 
-                                /* Optional: Adjust styling for label */
+                                /* styling for label */
                                 .quantity-selector span {
                                     margin-right: 11px;
                                     margin-top: 4px;
                                     display: flex;
                                 }
 
-                                /* Add styling for the "Add to Cart" button */
+                                /* styling for the "Add to Cart" button */
                                 .add-to-cart-btn {
                                     width: 100%;
-                                    margin-top: 20px; /* Optional: Adjust margin as needed */
+                                    margin-top: 20px; 
                                 }
 
                                /*  @@media (max-width: 720px) and (max-height: 1280px) {
@@ -614,7 +614,7 @@
                         </p>
 
                         <p style="text-align:left">
-                            <!-- Adjust the padding-left value based on your preference -->
+                            
                             <button type="button" class="btn btn-link custom-left-align custom-location-text" data-bs-toggle="modal" data-bs-target="#locationModal">
                                 <i class="bi bi-geo-alt-fill" style="font-size: 2.0em;"></i> <span class="custom-location-text">Our Location</span>
                             </button>
@@ -632,33 +632,33 @@
                                 .quantity-selector i {
                                     font-size: 1.5em;
                                     cursor: pointer;
-                                    border: 1px solid #ced4da; /* Border color matching your input area */
+                                    border: 1px solid #ced4da; /* Border color matching input area */
                                     border-radius: 0; /* Remove border-radius to make it visually connected */
-                                    padding: 0.25rem; /* Optional: Add padding for spacing */
+                                    padding: 0.25rem; /* padding for spacing */
                                     margin: 0 -1px; /* Adjust margin to visually connect icons */
-                                    background-color: #f9f9f9; /* Optional: Add background color to match input area */
+                                    background-color: #f9f9f9; /* background color to match input area */
                                 }
 
-                                /* Optional: Adjust styling for input area */
+                                /* styling for input area */
                                 .quantity-selector input {
                                     border: 1px solid #ced4da;
                                     border-radius: 0;
                                     margin: 0;
                                     text-align: center; /* Center text horizontally */
-                                    padding-right: 0; /* Remove right padding */
+                                    padding-right: 0; 
                                 }
 
-                                /* Optional: Adjust styling for label */
+                                /* styling for label */
                                 .quantity-selector span {
                                     margin-right: 11px;
                                     margin-top: 4px;
                                     display: flex;
                                 }
 
-                                /* Add styling for the "Add to Cart" button */
+                                /* styling for the "Add to Cart" button */
                                 .add-to-cart-btn {
                                     width: 100%;
-                                    margin-top: 20px; /* Optional: Adjust margin as needed */
+                                    margin-top: 20px; 
                                 }
 
                                 
@@ -731,9 +731,9 @@
                     // Function to get the opening time for the next morning
                     DateTime GetNextMorningSalesOpeningTime()
                     {
-                        // You can adjust this based on your business hours
+                        
                         DateTime tomorrowDate = DateTime.Today.AddDays(1);
-                        return tomorrowDate.AddHours(5); // Assuming morning sales opening time is at 5 am on the next day
+                        return tomorrowDate.AddHours(5); // morning sales opening time is at 5 am on the next day
                     }
 
                     string FormatTimeSpan(TimeSpan timeSpan)
@@ -795,9 +795,9 @@
 
                 /* Price styling */
                 .a-price[data-a-size=xl] {
-                    font-size: 28px; /* Adjust the font size for the price */
-                    color: #0F1111; /* Set the color of the price */
-                    margin-bottom: 10px; /* Add margin for spacing */
+                    font-size: 28px; /* font size for the price */
+                    color: #0F1111; /* color of the price */
+                    margin-bottom: 10px; 
                 }
 
                 .a-price[data-a-color=base] {
@@ -811,7 +811,7 @@
                 }
 
                 #price-info {
-                    margin-bottom: -10px; /* Add margin for spacing */
+                    margin-bottom: -10px; 
                 }
 
                 /* Rupee symbol styling */
@@ -823,13 +823,13 @@
 
                 .custom-left-align { /* for our location moving left */
                     text-align: left;
-                    padding-left:0px; /* Adjust the padding-left value as needed */
+                    padding-left:0px; 
                     padding-top:0px;
                     margin-top:0px;
                 }
 
                 .custom-modal-dialog {
-                    max-width: 62.4%; /* Adjust the max-width as needed */
+                    max-width: 62.4%; 
                 }
 
                 .custom-location-text {
@@ -888,7 +888,7 @@
                         updateQuantity();
                     }
 
-                            // The rest of your JavaScript functions (decreaseQuantity, updateQuantity) can remain the same
+                            
                 </script>
 
             }

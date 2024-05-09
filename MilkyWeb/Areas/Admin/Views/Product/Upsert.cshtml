@@ -20,7 +20,7 @@
 						<div class="form-floating py-2 col-12 ">
 							<input asp-for="Product.ProductName" class="form-control border-0 shadow" />
 							<label asp-for="Product.ProductName" class="ms-2"></label>
-							<span asp-validation-for="Product.ProductName" class="text-danger"></span> <!--creating form name and name validations -->
+							<span asp-validation-for="Product.ProductName" class="text-danger"></span> 
 						</div>
 						<div class="py-2 col-12">
 							<label asp-for="Product.Description" class="ms-2 text-muted "></label>
@@ -29,12 +29,12 @@
 						<div class="form-floating py-2 col-12 ">
 							<input asp-for="Product.MilkFat" class="form-control border-0 shadow" />
 							<label asp-for="Product.MilkFat" class="ms-2"></label>
-							<span asp-validation-for="Product.MilkFat" class="text-danger"></span> <!--creating form name and name validations -->
+							<span asp-validation-for="Product.MilkFat" class="text-danger"></span> 
 						</div>
 						<div class="form-floating py-2 col-12 ">
 							<input asp-for="Product.Price" class="form-control border-0 shadow" />
 							<label asp-for="Product.Price" class="ms-2">Price Per Litre</label>
-							<span asp-validation-for="Product.Price" class="text-danger"></span> <!--creating form name and name validations -->
+							<span asp-validation-for="Product.Price" class="text-danger"></span> 
 						</div>
 						<div class="form-floating py-2 col-12">
 							<select asp-for="Product.TaxIncluded" asp-items="Model.IsTaxIncludedOptions" class="form-select border-0 shadow">
@@ -110,7 +110,7 @@
 						<div class="form-floating py-2 col-12 ">
 							<input asp-for="Product.NumberOfItems" class="form-control border-0 shadow" />
 							<label asp-for="Product.NumberOfItems" class="ms-2"></label>
-							<span asp-validation-for="Product.NumberOfItems" class="text-danger"></span> <!--creating form name and name validations -->
+							<span asp-validation-for="Product.NumberOfItems" class="text-danger"></span> 
 						</div>
 
 						<div class="form-floating py-2 col-12">
@@ -124,7 +124,7 @@
 						<div id="maxItemDiv" class="form-floating py-2 col-12 ">
 							<input asp-for="Product.MaxNumberOfItemsInStock" class="form-control border-0 shadow" />
 							<label asp-for="Product.MaxNumberOfItemsInStock" class="ms-2"></label>
-							<span asp-validation-for="Product.MaxNumberOfItemsInStock" class="text-danger"></span> <!--creating form name and name validations -->
+							<span asp-validation-for="Product.MaxNumberOfItemsInStock" class="text-danger"></span> 
 						</div>
 
 
@@ -211,7 +211,7 @@
 			$('[name="Product.CategoryID"]').change(function () {
 				console.log('Category changed:', $(this).val());
 
-				// Check if the selected category has ID 1 (assuming 1 is the ID for "Milk")
+				// Check if the selected category has ID 1 (1 is the ID for "Milk")
 				if (parseInt($(this).val()) === 1) {
 					console.log('Show flavor div');
 					// If the category ID is 1 (Milk), show the flavor select element

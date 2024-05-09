@@ -16,7 +16,7 @@ namespace Milky.DataAccess.Repository
 	{
 		private readonly ApplicationDbContext _db;
 
-		// Constructor that takes an instance of ApplicationDbContext and calls the base class constructor with it
+		
 		public ApplicationUserRepository(ApplicationDbContext db) : base(db) 
 		{
             _db= db;

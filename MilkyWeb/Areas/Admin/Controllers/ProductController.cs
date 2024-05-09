@@ -18,10 +18,10 @@ namespace MilkyWeb.Areas.Admin.Controllers
 
 	public class ProductController : Controller // defined a new class inherits from controller class of asp.net
 	{
-		private readonly IUnitOfWork _unitOfWork;     // private field called _db will receive the instance of Applicationdbcontext
+		private readonly IUnitOfWork _unitOfWork;     
 		private readonly IWebHostEnvironment _webHostEnvironment;
-		public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment) //takes the instance of applicationdbcontext as parameter 
-																								 //and assigns it to _db
+		public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)  
+																								 
 		{
 			_unitOfWork = unitOfWork;
 			_webHostEnvironment = webHostEnvironment; //using dependency injection for accessing wwwroot

@@ -16,7 +16,7 @@ namespace MilkyWeb.Areas.Customer.Controllers
 
         public OrderController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork; //dependency injection set
+            _unitOfWork = unitOfWork; 
         }
         public IActionResult Index()
         {
