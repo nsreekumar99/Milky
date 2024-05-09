@@ -134,8 +134,8 @@
                 <div id="price-container">
                     <div id="price" class="a-section a-spacing-none">
                         <span aria-hidden="true">
-                            <span aria-hidden="true" id="rupee-symbol">₹</span>
-                            <span class="a-price-whole">@Model.Product.Price</span>
+                            @* <span aria-hidden="true" id="rupee-symbol">₹</span> *@
+                                <span class="a-price-whole">@Model.Product.Price.ToString("c")</span>
                         </span>
                     </div>
                     <style type="text/css">
@@ -155,7 +155,8 @@
                         }
 
                         #price .a-price-whole {
-                            margin-left: -10px; /* value to bring the price closer to the rupee symbol */
+                            margin-left: 0px; /* value to bring the price closer to the rupee symbol */
+                                font-size: 30px;
                         }
                     </style>
                 </div>
@@ -403,7 +404,7 @@
             <div id="right-column-box" class="border-box">
                 <div id="price-info">
                     <p class="a-price" data-a-size="xl" data-a-color="base">
-                        <span class="a-price-symbol">₹</span>@Model.Product.Price
+                        <span @* class="a-price-symbol" *@></span>@Model.Product.Price.ToString("c")
                     </p>
                 </div>
 
