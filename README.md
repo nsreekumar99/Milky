@@ -4,7 +4,7 @@ This is a dynamic ASP.NET Core MVC website designed to streamline the distributi
 
 ### Index Page
 
-![Index Page](MilkyWeb/wwwroot/images/Screenshot_1009.png)
+![Index Page](MilkyWeb/wwwroot/images/Screenshot_1025.png)
 
 ### Multi-step Registration is made possible using TempData.
 
