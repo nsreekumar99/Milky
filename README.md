@@ -47,7 +47,10 @@ Implemented separate order management for both customers and employees/Admins.
 
 ### Stock Management
 Purchased items are decremented from the available total stock.
+
 Shopping cart contents are reset if accessed outside operational hours or if items are out of stock.
+
+The system automatically updates product status to out of stock if no item stock is detected after an order is placed.
 
 ### Security Measures
 Security measures are implemented to prevent unauthorized access, including attempts to bypass the website's normal flow of operations.
